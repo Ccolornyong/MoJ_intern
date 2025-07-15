@@ -1,0 +1,47 @@
+<style>
+.textRight01 {
+background:; 
+width:100%; 
+height:100%; 
+font-size:26px; 
+font-family:'NotosansB'; 
+font-weight: bold; 
+padding-left:10px; 
+padding-right:; 
+padding-top:200; 
+padding-bottom:10 ;
+}
+
+.imageBox {
+font-size: 20px;
+display: flex;
+justify-content: center;
+padding-top: 140px;
+align-items:center;
+font-family:'NotosansB';
+}
+
+.right01Title {
+font-size: 20px;
+display: flex;
+justify-content: center;
+align-items:center;
+font-family:'NotosansB';
+}
+
+.right01Link {
+font-size: 16px;
+color: black;
+display: flex;
+justify-content: center;
+align-items:center;
+font-family:'NotosansB';
+}
+</style>
+
+<div>
+<span class='textRight01'>조직</span>
+<span id="imageBox" class="imageBox"></span>
+<span id="right01Title" class="right01Title">Korea Immigration Service</span>
+<span id="right01Link" class="right01Link">https://www.moj.go.kr/</span>
+</div>

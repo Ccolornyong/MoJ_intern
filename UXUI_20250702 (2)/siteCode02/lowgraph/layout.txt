@@ -1,0 +1,58 @@
+<BIX5 backgroundColor="transparent" alpha="1" fontSize="12" padding="10" fontWeight="bold" fontFamily="NotoSans">
+<Options>
+<SubCaption text="" height="1" color="#868e96" textAlign="right" fontSize="13" fontFamily="" fontWeight="bold" paddingLeft="0" paddingRight="0" paddingTop="0" paddingBottom="0" backgroundColor="transparent"/>
+<Legend position="bottom" display="none" backgroundColor="transparent" borderStyle="none" hAlign="center" width="0" height="0"/>
+</Options>
+<UnitFormatter id="unitfmt" useThousandsSeparator="true" units="" unitSymbols="[,K,M,G,T]" divisor="1000" rounding="none"/>
+<DateFormatter id="dateFmt" formatString="YYYY/MM/DD"/>
+<SeriesInterpolate id="si"/>
+<SeriesSlide id="ss" direction="right"/>
+<Line2DChart showDataTips="false" _cType="Line2DChart" gutterTop="30" gutterBottom="NaN" gutterLeft="1" gutterRight="1" itemClickJsFunction="@widget.itemClickFunc" chartClickJsFunction="@widget.chartClickJsFunc" displayCompleteCallFunction="@widget.displayCompleteCallFunc">
+<horizontalAxis>
+<CategoryAxis id="hAxis" categoryField="YEAR" formatter=""/>
+</horizontalAxis>
+<verticalAxis>
+<LinearAxis id="vAxis" minimum="NaN" maximum="NaN" interval="NaN" formatter="{unitfmt}"/>
+</verticalAxis>
+<series>
+<Line2DSeries formatter="{unitfmt}" dashLinePlacement="after" dashLinePattern="3" dashLineSeperatePos="0" lineStyle="dashLine" labelPosition="up" yField="FGN_CT_SUM" displayName="전체" showDataEffect="" color="#7e8282" itemRenderer="CircleItemRenderer" form="segment" itemSelectionColor="#86c1e0" _nodeName="Line2DSeries" id="FGN_CT_SUM" upLabelJsFunction="@widget.upLabelJsFunc">
+<fills>
+<SolidColor color="#7284c4"/>
+</fills>
+<stroke>
+<Stroke color="#7284c4" weight="2" alpha="1"/>
+</stroke>
+<lineStroke>
+<Stroke color="#7284c4" weight="2" alpha="1"/>
+</lineStroke>
+</Line2DSeries>
+</series>
+<horizontalAxisRenderers>
+<Axis2DRenderer axis="{hAxis}" showLine="true" color="#343a40">
+<axisStroke>
+<Stroke color="#eeeeee" alpha="1"/>
+</axisStroke>
+</Axis2DRenderer>
+</horizontalAxisRenderers>
+<verticalAxisRenderers>
+<Axis2DRenderer axis="{vAxis}" showLine="true" placement="left" color="#343a40">
+<axisStroke>
+<Stroke color="#eeeeee" alpha="1"/>
+</axisStroke>
+</Axis2DRenderer>
+</verticalAxisRenderers>
+<backgroundElements>
+<GridLines direction="horizontal" showBorderStroke="false">
+<horizontalStroke>
+<Stroke color="#eeeeee" alpha="1" weight="1"/>
+</horizontalStroke>
+<verticalStroke>
+<Stroke color="#eeeeee" alpha="1" weight="1"/>
+</verticalStroke>
+<borderStroke>
+<Stroke color="#eeeeee" alpha="1" weight="1"/>
+</borderStroke>
+</GridLines>
+</backgroundElements>
+</Line2DChart>
+</BIX5>

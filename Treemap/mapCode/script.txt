@@ -1,0 +1,208 @@
+<script>
+	let mainComponentId = null;
+	widget._selectedCategory = null;
+
+	widget.componentReadyHandler = function(componentId){
+		mainComponentId = componentId;
+
+		if(!widget.isBindingSource()){
+			document.getElementById(componentId).setDataType("json");
+			document.getElementById(componentId).setDataURL(BIX5.getAssetsPath() + "Datasources/TreeMap-TreeMap_Dynamic.json");
+		}
+	};
+
+	function formatToOnlyManUnit(value) {
+		return (value / 10000).toFixed(2).replace(/\.?0+$/, '') + '만 명';
+	}
+
+	const labelCache = {};
+
+	window.labelJsFunc202505_15 = function labelJsFunc(seriesId, index, data, values) {
+		const key = data.sido + '_' + data.category;
+		if (labelCache[key]) return labelCache[key];
+
+		const category = values[1];
+		const count = values[0];
+		const countlocale = Number(values[0]).toLocaleString();
+		const category_kor = data.category_kor;
+		const rate = Number(data.rate_202505);
+		const rateText = (rate >= 0 ? '+' : '') + rate.toFixed(1) + '%';
+		const ratelabel = isNaN(rate) ? '-' : rateText;
+
+		let fontSize = 10;
+		let catSize = 10;
+
+		const countInt = Number(count);
+		const countText = formatToOnlyManUnit(countInt);
+
+		if (countInt > 2000) {
+			fontSize = 40; catSize = 35;
+		} else if (countInt > 1000) {
+			fontSize = 35; catSize = 30;
+		} else if (countInt > 800) {
+			fontSize = 30; catSize = 25;
+		} else if (countInt > 500) {
+			fontSize = 25; catSize = 20;
+		} else if (countInt > 300) {
+			fontSize = 20; catSize = 15;
+		} else if (countInt > 100) {
+			fontSize = 15; catSize = 13;
+		} 
+
+		const html = 
+					'<font size="' + catSize + '">' + '(' + category + ')' +'</font>\n' +
+					'<font size="' + fontSize + '"><b>' + category_kor + '</b></font>\n<br>' +
+					'<font size="' + catSize + '"><b>' + countText + '</b></font>';
+
+		labelCache[key] = html;
+		return html;
+	};
+
+
+	// 중복 호출 방지
+	const groupLabelCache = {};
+
+	widget.groupLabelJsFunction = function groupLabelJsFunc2025(seriesId, index, data, value) {
+
+		if (groupLabelCache[seriesId]) return groupLabelCache[seriesId];
+
+		const groupKey = seriesId;
+		const groupInfo = window.groupDataMap[groupKey]?.total || 0;
+
+		// 🔢 소수점 한 자리까지 만 단위로 계산
+		const groupText = (groupInfo / 10000).toFixed(1) + '만 명';
+		const label = groupKey+" ("+groupText+")";
+
+		groupLabelCache[seriesId] = label;
+		console.log("groupInfo:", label);
+
+		return label;
+	};
+
+	window.fillByCategory02 = function(seriesId, index, data, values) {
+		if (widget._selectedCategory && data.category === widget._selectedCategory) {
+			return "#59c9c4"; // 강조 색상
+		}
+
+		const rate = Number(data["rate_202505"]);
+		if (isNaN(rate)) return '#cccccc';
+
+		// const clamped = Math.max(-10, Math.min(10, rate));
+		// const t = (clamped+10)/20;
+
+		// return interpolateColor("#a83232", "#3c5a50", "#2a7f2e", t);
+
+		if (rate < -10) {
+			return "#F63538";  // 매우 큰 감소
+		} else if (rate < -5) {
+			return "#D73C3F";  // 큰 감소
+		} else if (rate < -3) {
+			return "#C73E43";  // 중간 감소
+		} else if (rate < -1) {
+			return "#AE4248";  // 약간 감소
+		} else if (rate < 0) {
+			return "#57333b";  // 쬐끔 감소
+		} else if (rate === 0) {
+			return "#414554";  // 변화 없음
+		} else if (rate <= 0) {
+			return "#3D5451";  // 쬐금 증가
+		} else if (rate <= 1) {
+			return "#38694F";  // 약간 증가
+		} else if (rate <= 3) {
+			return "#31894E";  // 중간 증가
+		} else if (rate <= 5) {
+			return "#30974F";  // 큰 증가
+		} else { // rate > 5
+			return "#30CC5A";  // 매우 큰 증가
+		}
+
+	};
+
+	window.myDataTip2021 = function dataTipJsFunction(seriesId, seriesName, index, xName, yName, data, values) {
+		const sido = data.sido;
+		const category_kor = data.category_kor || "카테고리 없음";
+		const count = data.count_202505;
+		const countText = isNaN(count) ? "-" : `${count}`;
+		const rate = Number(data.rate_202505);
+		const rateText = (rate >= 0 ? '+' : '') + rate.toFixed(1) + '%';
+
+		return `${category_kor}<br>인원수: ${countText}<br>증감률: ${rateText}`;
+	};
+
+	window.borderByCategory2021 = function(seriesId, index, data, values) {
+		// const rate = data["rate_2021"];
+		// if (rate >= 20 || rate <= -20) {
+		// 	return { color: "#ffffff", weight: 3 };
+		// } else {
+		return { color: "#000000", weight: 1 };
+		// }
+	};
+
+	window.itemClickJsFunc2025 = function itemClickJsFunction(seriesId, displayText, index, data, values) {
+		const clickedCategory = data.category;
+
+		if (widget._selectedCategory === clickedCategory) {
+			widget._selectedCategory = null;
+		} else {
+			widget._selectedCategory = clickedCategory;
+		}
+
+		console.log("🖱️ 선택된 category:", window._selectedCategory);
+
+		// ✅ 선택 후 강제로 다시 그림
+		// const comp = widget.getComponent();
+		// if (comp && typeof comp.redraw === "function") {
+		// 	comp.redraw();
+		// }
+	};
+
+	widget.setTransformSourceHandler(function(topic, payload) {
+
+		// ✅ 서울특별시만 필터링
+		payload = payload.filter(row => row["시도명"] === "제주특별자치도");
+
+		window.groupDataMap = {};
+
+		const map = {};
+		const rates = [];
+
+		payload.forEach(row => {
+			const sido = row["시군구명"];
+			const category = row["자격_대분류"];
+			const category_kor = row["자격_코드명"];
+			const count_202504 = Number(row["202504_외국인수"]);
+			const count_202505 = Number(row["202505_외국인수"]);
+			const rate_202505 = Number(row["2504to2505"]);
+
+			if (!map[sido]) map[sido] = [];
+
+			map[sido].push({
+				sido,
+				category,
+				category_kor,
+				count_202504,
+				count_202505,
+				rate_202505
+			});
+
+			// 그룹 헤더용
+			if (!window.groupDataMap[sido]) {
+				window.groupDataMap[sido] = {total:0};
+			}
+			window.groupDataMap[sido].total += count_202505;
+
+			rates.push(rate_202505);  // ✅ 누락된 이 부분 추가!
+		});
+
+		window.minRate = Math.min(...rates);
+		window.maxRate = Math.max(...rates);
+
+		return Object.keys(map).map(sido => ({
+			name: sido,
+			items: map[sido]
+		}));
+
+	});
+
+	widget.componentRemoveHandler = function() {};
+</script>

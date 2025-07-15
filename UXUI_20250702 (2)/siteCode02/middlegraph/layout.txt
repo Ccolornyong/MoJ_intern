@@ -1,0 +1,21 @@
+<BIX5 backgroundColor="transparent" alpha="1" padding="10">
+<MapChart drillDownEnabled="false" showDataTips="true" dataTipType="Type3" _cType="MapChart" id="wBB208B8354A05DE738A8CC4E253398A0-map" itemClickJsFunction="@widget.itemClickJsFunc" dataTipJsFunction="@widget.dataTipJsFunc" mapChangeJsFunction="@widget.mapChangeJsFunc" interactive="true" selectedCode="600">
+<series>
+<MapSeries localFillByRange="[#b3e5fc, #01579b]" rangeLegendDataField="CNT" fontSize="11" interactive="true" selectionMarking="line" color="#ffffff" labelPosition="inside" displayName="Map" selectionFontColor="#5244da" _nodeName="MapSeries" areaDataCode="code" fontFamily="NotoSans">
+<stroke>
+<Stroke color="#62bfea" weight="1" alpha="1"/>
+</stroke>
+<rollOverFill>
+<SolidColor color="#2e7dca"/>
+</rollOverFill>
+<selectionStroke>
+<Stroke color="#48a5d0" weight="1" alpha="1"/>
+</selectionStroke>
+<localFill>
+<SolidColor color="#70a2dd"/>
+</localFill>
+</MapSeries>
+</series>
+</MapChart>
+<DataRangeLegend showArrow="true" width="300" minimum="0" maximum="{{meta.maximum}}" interval="{{meta.interval}}" colors="[#b3e5fc, #01579b]" position="bottom"/>
+</BIX5>

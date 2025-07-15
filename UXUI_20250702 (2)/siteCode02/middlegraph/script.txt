@@ -1,0 +1,116 @@
+<script>
+
+	/**
+	* component를 사용할 준비가 되면 호출합니다
+	*/
+	widget.componentReadyHandler = function(componentId){
+
+	}
+
+
+
+	/**
+	* 데이터 변형 사용자 정의 함수를 등록합니다.
+	* 콜백함수에 인자로 topic, payload가 전달됩니다.
+	* payload: 수신된 데이터. 해당 값은 참조된 값이기 때문에 유의하여 사용 바랍니다.
+	*/
+	/**
+	widget.setTransformSourceHandler(function(topic, payload){
+		return payload;
+	});
+	*/
+
+	// 지역 구분이 같은 국가 합산하여 범례로 사용
+	widget.setTransformSourceHandler(function(topic, payload) {
+		const groupBy = 'code';
+		const valueField = 'CNT';
+
+		const result = [];
+		const groupMap = {};
+
+		// 1. 대륙별 CNT 합산
+		payload.forEach(item => {
+			const key = item[groupBy]; // code = 대륙 코드
+			if (!groupMap[key]) {
+				groupMap[key] = {
+					code: key,        // 최종 결과에 들어갈 code
+					CNT: 0            // 누적용 CNT 초기화
+				};
+			}
+			groupMap[key][valueField] += item[valueField];
+		});
+
+		for (const key in groupMap) {
+			result.push(groupMap[key]);
+			console.log("payload in Transform key: ", key);
+		}
+
+		const cntList = result.map(r => r[valueField]);
+		const max = Math.max(...cntList);
+		const min = Math.min(...cntList);
+		const interval = Math.round((max-min)/5) || 1;
+
+		console.log(cntList);
+
+		window.gfn.addLayoutMetaData(widget, {
+			minimum: min,
+			maximum: max,
+			interval: interval
+		});
+
+		console.log(min, max);
+
+		console.log("payload in Transform result: ", result);
+
+		return result;
+
+	});
+
+	/**
+	* component가 삭제되기 전 호출됩니다.
+	*/
+	widget.componentRemoveHandler = function(){
+
+	}
+
+	widget.dataTipJsFunc = function(seriesId, code, label, data) {
+		const cnt = Number(data.CNT).toLocaleString(); // 콤마 포함 숫자 처리
+
+		return "이민자<br>"+cnt+" 천 명"
+	}
+
+	console.log("hi1")
+
+	widget.mapChangeJsFunc = function(code, label, data){
+		console.log("📤 왼쪽 mapChangeJsFunc 호출됨", { code, label, data });
+
+		const event = new CustomEvent("continentClick", {
+			detail: {
+				seriesId: Number(code),
+				continentLabel: label
+			}
+		});
+
+		console.log("📤 이벤트 detail 확인 (CustomEvent):", event.detail);
+
+		widget.getSlide().dispatchEvent(event);
+	};
+	console.log("hi3")
+
+	// dropdown to map widget
+	widget.getSlide().addEventListener("continentClick", function(evt) {
+		const detail = evt.detail || {};
+		const seriesId = detail.seriesId;
+		const continentLabel = detail.continentLabel;
+
+
+		console.log("✅ Dropdown to mapWidget:", seriesId, continentLabel);
+
+		// 1) 지도 DrillDown
+		// if (seriesId) {
+		widget.getComponent().setSelectedCode(seriesId.toString());
+		// }
+
+	});
+
+</script>

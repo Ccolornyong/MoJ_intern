@@ -1,0 +1,124 @@
+
+<script>
+	widget.componentReadyHandler = function(componentId) {
+		console.log("✅ 오른쪽 국가맵 위젯 준비됨");
+	};
+
+	let originPayload = []; // 원본 데이터를 저장할 전역 변수
+
+	// 1. 초기 데이터 받기 (한 번만 호출됨)
+	widget.setTransformSourceHandler(function(topic, payload) {
+		console.log("✅ 데이터 들어옴", payload);
+		originPayload = payload;
+
+		setTimeout(() => {
+			widget.getComponent().setSelectedCode("603");
+		}, 100); 
+
+		return payload;
+	});
+
+
+	widget.getSlide().addEventListener("continentClick", function(evt) {
+		const detail = evt.detail || {};
+		const seriesId = detail.seriesId;
+		const continentLabel = detail.continentLabel;
+		console.log("✅ 오른쪽 위젯 continentClick 이벤트 수신:", seriesId, continentLabel);
+
+		// 1) 지도 DrillDown
+		if (seriesId) {
+			widget.getComponent().setOpenCode(seriesId.toString());
+		}
+		// 2) 검색 파라미터 설정
+		window.gfn.setParams({
+			seriesId: seriesId,
+			continentLabel: continentLabel,
+			id: widget.id
+		});
+
+
+		// 3) 상단에 뒤로가기 안생기도록 rootcode 바꾸기
+		widget.getComponent().setRootCode(seriesId.toString());
+
+		// 4) 해당 코드 지역에 빗금
+		const matches = originPayload.filter(item => item.대륙 === continentLabel);
+
+
+		if (continentLabel === "아시아") {
+			selected = matches.find(item => item.NAT_HAN_NM === "대한민국" || item.code === 410);
+		} else {
+			selected = matches[0];
+		}
+		const countryId = selected.code;
+		console.log("countryId: ", countryId);
+		setTimeout(() => {
+			widget.getComponent().setSelectedCode(countryId.toString());
+		}, 100); 
+
+
+		window.gfn.setSearchEvent(widget);
+
+	});
+
+
+	widget.getSlide().addEventListener("countryClick", function(evt) {
+		const detail = evt.detail || {};
+		const seriesId = detail.seriesId;
+		const continentLabel = detail.continentLabel;
+		const areaCd = detail.areaCd;
+		console.log("✅ 오른쪽 위젯 countryClick 이벤트 수신:", seriesId, continentLabel,areaCd);
+
+		// 1) 지도 DrillDown
+		// if (seriesId) {
+		widget.getComponent().setSelectedCode(seriesId.toString());
+		// }
+
+		window.gfn.setSearchEvent(widget);
+
+	});
+
+
+	// 데이터 팁 툴
+	widget.dataTipJsFunc = function(seriesId, code, label, data) {
+		const cnt = Number(data.CNT).toLocaleString(); // 콤마 포함 숫자 처리
+
+		return label+" 이민자<br>"+cnt+" 천 명"
+	}
+
+	// 선택 시
+	widget.mapChangeJsFunc = function(code, label, data){
+		// const matched = originPayload.find(item => String(item.country_code) === String(code));
+		// const continent = matched?.대륙 || "알 수 없음";
+		console.log("📤 right map Click", { code, label, data});
+
+		const continent = data?.대륙 || data?.continent || "정보 없음";
+		let immirate = '-';
+		if (data?.CNT !== undefined && data?.POP_CT_1000_UNIT_CNT) {
+			const rate = data.CNT / data.POP_CT_1000_UNIT_CNT;
+			if (isFinite(rate)) {
+				immirate = (rate * 100).toFixed(2);
+			}
+		}
+
+
+		const event = new CustomEvent("countryClick", {
+			detail: {
+				seriesId: Number(code),
+				countryLabel: label,
+				continentLabel: continent,
+				constpopulation: data?.POP_CT_1000_UNIT_CNT,
+				constRank: data?.POP_RANK,
+				immicnt: data?.CNT,
+				immirank: data?.IMM_RANK,
+				immirate: immirate,
+				areaCd: data?.AREA_CD
+			}
+		});
+
+		console.log("📤 right map 이벤트 detail 확인 (CustomEvent):", event.detail);
+
+		widget.getSlide().dispatchEvent(event);
+	};
+
+
+</script>

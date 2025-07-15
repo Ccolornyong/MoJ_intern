@@ -1,0 +1,75 @@
+<script>
+	const defaultAreaCd = 410;
+
+	widget.componentReadyHandler=function(componentId){
+		widget.getSlide().addEventListener('search', evt => {
+			window.gfn.searchCallback(evt, widget);
+		});
+
+		widget.getSlide().addEventListener('natSearch', evt => {
+			window.gfn.searchCallback(evt, widget);
+		});
+
+		// ✅ 지도 또는 다른 위젯에서 발생한 클릭 이벤트 수신
+		widget.getSlide().addEventListener("countryClick", function(evt) {
+			const detail = evt.detail || {};
+			const areaCd = detail.areaCd;
+
+			console.log("✅ 하단 Card03 countryClick 이벤트 수신:", areaCd);
+
+			// ✅ 검색 파라미터 및 이벤트 전달
+			window.gfn.setParams({ AREA_CD: areaCd });
+			window.gfn.setSearchEvent(widget);
+		});
+	}
+
+
+	widget.setTransformSourceHandler(function(topic, payload){
+
+		const params = window.gfn.getParams();
+		const selectedAreaCode = params.AREA_CD || defaultAreaCd;
+
+		console.log("selectedArea 위젯 하단 03: ", selectedAreaCode);
+
+		console.log("payload 필터링 전: ", payload);
+
+		// ✅ 데이터 필터링
+		payload = payload.filter(row => row.AREA_CD === selectedAreaCode && row.STDR_YEAR === 2020);
+
+		console.log("payload 위젯 하단 03: ", payload);
+
+		// widget.getComponent().redraw();
+
+		let _row = [];
+		for(let i=0; i<payload.length; i++){
+			/* (대민) 5인 이하 0 으로 출력 */
+			_row = payload[i];
+			_row.IMGRT_FEMALE = _row.IMGRT_FEMALE <= 5 ? 0 : _row.IMGRT_FEMALE;
+			_row.IMGRT_MALE = _row.IMGRT_MALE <= 5 ? 0 : _row.IMGRT_MALE;
+			_row.POP_FEMALE = _row.POP_FEMALE <= 5 ? 0 : _row.POP_FEMALE;
+			_row.POP_MALE = _row.POP_MALE <= 5 ? 0 : _row.POP_MALE;
+		}
+
+		let maleMaximum = Math.max(...payload.map(_m => _m.POP_MALE + _m.IMGRT_MALE));
+		let femaleMaximum = Math.max(...payload.map(_m => _m.POP_FEMALE + _m.IMGRT_FEMALE));
+
+		maleMaximum += maleMaximum/2;
+		femaleMaximum += femaleMaximum/2;
+
+		widget.setLayoutMetaData({
+			maleMaximum, femaleMaximum
+		});
+
+		return payload;
+	});
+
+	widget.imgrtOutsideLabelJsFunc = function(id, index, data, values){
+		if(values[0] > 5) return window.gfn.addComma(values[0]);
+		else return '';
+	}
+
+	widget.popCtOutsideLabelJsFunc = function(id, index, data, values){
+		if(values[0] > 5) return window.gfn.addComma(values[0]);
+		else return '';
+	}
+</script>

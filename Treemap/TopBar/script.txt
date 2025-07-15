@@ -1,0 +1,26 @@
+<script>
+	/**
+	* component를 사용할 준비가 되면 호출합니다.
+	*/
+	widget.componentReadyHandler = function(componentId){
+
+	}
+
+	/**
+	* 데이터 변형 사용자 정의 함수를 등록합니다.
+	* 콜백함수에 인자로 topic, payload가 전달됩니다.
+	* payload: 수신된 데이터. 해당 값은 참조된 값이기 때문에 유의하여 사용 바랍니다.
+	*/
+	/**
+	widget.setTransformSourceHandler(function(topic, payload){
+		return payload;
+	});
+	*/
+
+	/**
+	* component가 삭제되기 전 호출됩니다.
+	*/
+	widget.componentRemoveHandler = function(){
+
+	}
+</script>

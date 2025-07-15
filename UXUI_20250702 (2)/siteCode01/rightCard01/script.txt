@@ -1,0 +1,48 @@
+<script>
+	let originPayload = [];
+
+	widget.componentReadyHandler = function(componentId){
+		const defaultAreaCd = 410;
+		const defaultCountry = '대한민국'; // 초기 선택 국가
+
+
+		widget.getSlide().addEventListener("countryClick", function(evt) {
+			const detail = evt.detail || {};
+			const seriesId = detail.seriesId;
+			const countryLabel= detail.countryLabel;
+			const continentLabel = detail.continentLabel;
+			const areaCd = detail.areaCd;
+			console.log("✅ 우측 Card01 countryClick 이벤트 수신:", areaCd);
+
+			const conttextEl = document.getElementById("right01Title");
+			const countextEl = document.getElementById("right01Link");
+
+			const selected = originPayload.find(item => item.AREA_CD === areaCd);
+
+			console.log("selected: ", selected);
+
+			const name = selected?.["이민청_조직"] || "조직 정보 없음";
+			const link = selected?.["상위부처_홈페이지"] || "사이트 정보 없음";
+
+			if (conttextEl) {
+				conttextEl.textContent = name;
+			}
+
+
+			if (countextEl) {
+				countextEl.textContent = link;
+			}
+
+			window.gfn.setSearchEvent(widget);
+
+		});
+	}
+
+	widget.setTransformSourceHandler(function(topic, payload) {
+		console.log("✅ 데이터 들어옴", payload);
+		originPayload = payload;
+
+		return payload;
+	});
+
+</script>

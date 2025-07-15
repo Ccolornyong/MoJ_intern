@@ -1,0 +1,166 @@
+<style>
+	*,
+	::before,
+	::after {
+		box-sizing: border-box;
+		border-style: solid;
+		border-width: 0;
+	}
+
+	ul,	ol {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.menu_div {
+		height: 100%;
+		overflow: hidden;
+		background-color:transparent;
+		box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+		font-family: 'NotoSans';
+	}
+
+
+	.fst_button {
+		padding: 14px 16px;
+		display: block;
+		width: 100%;
+		color: #fff;
+		background: #313e79;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		text-align: center;
+		font-size: 18px;
+		font-weight:bold;
+		border-radius: 6px;
+		margin-bottom: 2px;
+	}
+
+	.sub_button {
+		padding: 10px;
+		padding-left:15px;
+		display: block;
+		width: 100%;
+		color: #868e96;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		background: #fff;
+		text-align: left;
+		font-weight: Medium;
+		font-size: 16px;
+		border-radius: 6px;
+		margin-bottom: 2px;
+	}
+
+	.sub_button:hover {
+		background-color: #f8f9fa;
+	}
+
+	.side-nav__list {
+		position: relative;
+		letter-spacing: -0.03em;
+		padding-bottom: 5px;
+	}
+
+	.side-nav__list + .side-nav__list {
+		border-top: 1px solid #f1f3f5;
+	}
+
+	.side-nav__list.active .side-nav__button {
+		color: #ffffff;
+		background-color: rgb(36, 24, 104);
+	}
+
+	.side-nav__button:hover {
+		background-color: #f8f9fa;
+	}
+
+	.sub_menu {
+		display: none;
+	}
+
+	.on .sub_menu {
+		display: block;
+	}
+
+	.on .sub_menu .click {
+		color: #ffffff;
+		background-color: #7196bf;
+	}
+
+
+
+</style>
+<script>
+	/**
+	* component를 사용할 준비가 되면 호출합니다.
+	*/
+	widget.componentReadyHandler = function(componentId){
+
+		// 아코디언 메뉴 활성화
+		var menus = document.querySelectorAll('.menu');
+		menus.forEach(function(menu, index){
+			menu.addEventListener('click',function(e){
+				e.preventDefault();
+
+				this.parentNode.classList.toggle('on');
+
+				buttons.forEach(function(menu2, index2){
+					if(index !== index2){
+						menu2.parentNode.classList.remove('on');
+					}
+				});
+			});
+		});
+
+		var buttons = document.querySelectorAll('.sub_button');
+		buttons.forEach(function(button, index){
+			button.addEventListener('click',function(e){
+
+				this.classList.toggle('click');
+
+				var dashboardId = $(this).attr("id");
+				var event = BIX5.dashboard.createEvent('clickLeftMenuBtn', false, false, {dashboardId:dashboardId});
+				/* console.log(dashboardId); */
+				widget.getSlide().dispatchEvent(event);
+
+				/*
+				var selUrl = this.dataset.url;
+				console.log("clicked url : " + selUrl);
+				var selectMenu = BIX5.dashboard.createEvent("selectMenu");
+				selectMenu.detail = {
+					url : selUrl
+				}
+				widget.getSlide().dispatchEvent(selectMenu);			
+*/
+				buttons.forEach(function(button2, index2){
+					if(index !== index2){
+						button2.classList.remove('click');
+					}
+				});
+
+			});
+		});
+	}
+
+	/**
+	* 데이터 변형 사용자 정의 함수를 등록합니다.
+	* 콜백함수에 인자로 topic, payload가 전달됩니다.
+	* payload: 수신된 데이터. 해당 값은 참조된 값이기 때문에 유의하여 사용 바랍니다.
+	*/
+	/**
+	widget.setTransformSourceHandler(function(topic, payload){
+		return payload;
+	});
+	*/
+
+	/**
+	* component가 삭제되기 전 호출됩니다.
+	*/
+	widget.componentRemoveHandler = function(){
+
+	}
+</script>

@@ -1,0 +1,28 @@
+{
+  "propertyOptions": [],
+  "layoutMetaData": {
+    "TEXT": "",
+    "month": "06"
+  },
+  "isMultiView": false,
+  "multiViewRow": 2,
+  "multiViewColumn": 2,
+  "multiViewSubCategoryField": {},
+  "multiViewFillType": null,
+  "marginLeft": 0,
+  "marginTop": 0,
+  "marginRight": 0,
+  "marginBottom": 0,
+  "isAutoServiceStart": true,
+  "dedicated": true,
+  "isDataLimit": false,
+  "dataLimit": 10000,
+  "referenceResources": [],
+  "vars": "",
+  "componentLayoutId": "Line-Line_Segment",
+  "bindingSource": "4c0f48eccf569e08bac7785be0245279",
+  "referenceSources": [],
+  "interactiveFiltering": false,
+  "dynamicFiltering": false,
+  "filterField": "YEAR"
+}

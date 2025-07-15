@@ -1,0 +1,43 @@
+<script>
+	widget.componentReadyHandler = function(componentId){
+		const seriesId = 401;
+		const countryLabel= "대한민국";
+		const continentLabel = "아시아";
+
+
+		const conttextEl = document.getElementById("continentText");
+		const countextEl = document.getElementById("countryText");
+
+		if (countextEl) {
+			countextEl.textContent = countryLabel;
+		}
+
+
+		if (conttextEl) {
+			conttextEl.textContent = continentLabel;
+		}
+
+		widget.getSlide().addEventListener("countryClick", function(evt) {
+			const detail = evt.detail || {};
+			const seriesId = detail.seriesId;
+			const countryLabel= detail.countryLabel;
+			const continentLabel = detail.continentLabel;
+			console.log("✅ 상단 Card01 countryClick 이벤트 수신:", seriesId, countryLabel,continentLabel);
+
+			const conttextEl = document.getElementById("continentText");
+			const countextEl = document.getElementById("countryText");
+
+			if (countextEl) {
+				countextEl.textContent = countryLabel;
+			}
+
+
+			if (conttextEl) {
+				conttextEl.textContent = continentLabel;
+			}
+
+			window.gfn.setSearchEvent(widget);
+
+		});
+	}
+</script>

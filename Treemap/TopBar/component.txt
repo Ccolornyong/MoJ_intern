@@ -1,0 +1,21 @@
+{
+  "propertyOptions": [],
+  "layoutMetaData": {},
+  "isMultiView": false,
+  "multiViewRow": 2,
+  "multiViewColumn": 2,
+  "multiViewSubCategoryField": {},
+  "multiViewFillType": null,
+  "marginLeft": 0,
+  "marginTop": 0,
+  "marginRight": 0,
+  "marginBottom": 0,
+  "isAutoServiceStart": true,
+  "dedicated": false,
+  "isDataLimit": false,
+  "dataLimit": 10000,
+  "referenceResources": [],
+  "bindingSource": "",
+  "referenceSources": [],
+  "classList": []
+}

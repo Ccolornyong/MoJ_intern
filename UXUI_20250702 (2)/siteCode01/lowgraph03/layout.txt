@@ -1,0 +1,59 @@
+<BIX5 backgroundColor="transparent" alpha="1" fontSize="12" fontWeight="bold" padding="10" fontFamily="NotoSans">
+<Box width="100%" direction="horizontal" fontSize="12" fontWeight="bold" color="#000000">
+<Label width="100%" height="30" text="여성" textAlign="left" fontSize="11" color="#ef4d4d" fontWeight="bold"/>
+<Label width="100%" height="30" text="남성" textAlign="right" fontSize="11" col1or="#4181a1" fontWeight="bold"/>
+</Box>
+<Bar2DWingChart showDataTips="true" padding="2" type="stacked" gutterBottom="5">
+<verticalAxis>
+<CategoryAxis categoryField="AGE_SCOPE_NM" />
+</verticalAxis>
+<horizontalAxis>
+<!-- 남성(오른쪽) -->
+<LinearAxis id="hAxis" minimum="NaN" maximum="{{meta.maleMaximum}}" interval="NaN"/>
+</horizontalAxis>
+<horizontalAxisOpp>
+<!-- 여성(왼쪽) -->
+<LinearAxis id="hAxis2" minimum="NaN" maximum="{{meta.femaleMaximum}}" interval="NaN"/>
+</horizontalAxisOpp>
+
+
+<horizontalAxisRenderers>
+<Axis2DWingRenderer axis="{hAxis}" wingPlacement="right" placement="bottom" visible="false"/>
+<Axis2DWingRenderer axis="{hAxis2}" wingPlacement="left" placement="bottom" visible="false"/>
+</horizontalAxisRenderers>
+
+
+<series>
+
+<Bar2DWingSeries itemRenderer="BoxItemRenderer" xField="IMGRT_MALE" xFieldOpp="IMGRT_FEMALE" labelPosition="outside" color="#ffffff" itemSelectionColor="#2c2670" outsideLabelJsFunction="@widget.imgrtOutsideLabelJsFunc" fontSize="10">
+<fill>
+<SolidColor color="#827cc7"/>
+</fill>
+</Bar2DWingSeries>
+<!-- 여성용 시리즈 -->
+<Bar2DWingSeries itemRenderer="SemiCircleBarItemRenderer" 
+xFieldOpp="POP_FEMALE" 
+labelPosition="outside"
+outsideLabelJsFunction="@widget.imgrtOutsideLabelJsFunc"
+fontSize="10"
+>
+<fill>
+<SolidColor color="#ffa3a6"/></fill>
+</Bar2DWingSeries>
+
+<!-- 남성용 시리즈 -->
+<Bar2DWingSeries itemRenderer="SemiCircleBarItemRenderer"
+xField="POP_MALE"
+labelPosition="outside"
+outsideLabelJsFunction="@widget.imgrtOutsideLabelJsFunc"
+fontSize="10">
+<fill>
+<SolidColor color="#86c1e0"/>
+</fill>
+<stroke>
+<Stroke color="#000000" weight="0" alpha="0"/>
+</stroke>
+</Bar2DWingSeries>
+</series>
+</Bar2DWingChart>
+</BIX5>

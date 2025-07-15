@@ -1,0 +1,33 @@
+{
+  "propertyOptions": [],
+  "layoutMetaData": {
+    "categoryField": "GROP_SOJQ_NM",
+    "scrollPosition": 32,
+    "captionTxt": "체류자격별",
+    "xField": "FGN_CT_SUM",
+    "gutterLeft": "80",
+    "visibleItemSize": "5",
+    "maximum": 828628.5
+  },
+  "isMultiView": false,
+  "multiViewRow": 2,
+  "multiViewColumn": 2,
+  "multiViewSubCategoryField": {},
+  "multiViewFillType": null,
+  "marginLeft": 0,
+  "marginTop": 0,
+  "marginRight": 0,
+  "marginBottom": 0,
+  "isAutoServiceStart": true,
+  "dedicated": true,
+  "isDataLimit": true,
+  "dataLimit": 10000,
+  "referenceResources": [],
+  "vars": "",
+  "componentLayoutId": "Bar-Bar",
+  "bindingSource": "4bbdfdc7b70f040dbca619265c37bdfb",
+  "referenceSources": [],
+  "interactiveFiltering": false,
+  "dynamicFiltering": false,
+  "filterField": "YEAR"
+}

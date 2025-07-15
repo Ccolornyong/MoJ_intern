@@ -1,0 +1,127 @@
+<script>
+	const captionTxt = '체류자격별'; //제목
+	const colNm = 'GROP_SOJQ_NM'; //y축(라벨) 컬럼명
+	const xField = 'FGN_CT_SUM'; //x축(값) 컬럼명
+	const gutterLeft = '80'; //라벨 margin
+	const visibleItemSize = '5'; //스크롤 아이템 노출 갯수
+
+	/**
+	* component를 사용할 준비가 되면 호출합니다
+	*/
+	widget.componentReadyHandler = function(componentId){
+		if(!widget.isBindingSource()){
+			document.getElementById(componentId).setDataType("json");
+			document.getElementById(componentId).setDataURL(BIX5.getAssetsPath() + "Datasources/Bar-Bar.json");
+		}
+
+		/* 수직축 ID */
+		window.gfn.addLayoutMetaData(widget, {captionTxt:captionTxt, categoryField: colNm, xField:xField, gutterLeft:gutterLeft, visibleItemSize:visibleItemSize});
+
+		// 검색 이벤트
+		widget.getSlide().addEventListener('search', function(evt){
+			window.gfn.searchCallback(evt, widget);
+		});
+
+	}
+
+	/**
+	* 데이터 변형 사용자 정의 함수를 등록합니다.
+	* 콜백함수에 인자로 topic, payload가 전달됩니다.
+	* payload: 수신된 데이터. 해당 값은 참조된 값이기 때문에 유의하여 사용 바랍니다.
+	*/
+	widget.setTransformSourceHandler(function(topic, payload){
+
+		// 1. 총계
+		widget.total = 0;
+		for(let i=0; i<payload.length; i++){
+			let _row = payload[i];
+			widget.total += _row[xField];
+
+			/* (대민) 5인이하 표시 X */
+			_row[xField] = (_row[xField] <= 5) ? 0 : _row[xField];
+		}
+
+		// 2. 정렬
+		payload.sort( (a,b) => a[xField] - b[xField] );
+
+		// 3. 선택아이템이 있을시 값 저장
+		widget.originalData = payload;
+
+		if(widget.sItem !== undefined && widget.sItem !== null) {
+			widget.sIndex = payload.findIndex(row => {
+				return widget.sItem === row[colNm];
+			});
+			//스크롤 선택지정
+			window.gfn.addLayoutMetaData(widget, {scrollPosition: widget.sIndex});
+
+		} else {
+			widget.sIndex = null;
+			window.gfn.addLayoutMetaData(widget, {scrollPosition: payload.length - 1 });
+		}
+
+
+		// 4. 맥시멈값 설정( 오른쪽 잘림 방지 )
+		const len = payload.length;
+		const mObj = payload[len -1] || {};
+		const maximum = mObj[xField] || 0;
+		window.gfn.addLayoutMetaData(widget, {maximum: maximum * 1.5});
+
+		return payload;
+	});
+
+	/* Y축 라벨 생성 */
+	widget.axisLabelFunc = function(id, value){
+		var valueStr = value;
+		var valueStrIdx1 = valueStr.indexOf("(");
+		var valueStrIdx2 = valueStr.lastIndexOf(" ");
+		if(valueStrIdx1 != -1){
+			valueStr = valueStr.substring(0,valueStrIdx1) + "\n" + valueStr.substring(valueStrIdx1, valueStr.length);
+		}
+		if(valueStrIdx2 != -1){
+			valueStr = valueStr.substring(0,valueStrIdx2) + "\n" + valueStr.substring(valueStrIdx2, valueStr.length);
+		}
+		return valueStr; 
+	}
+
+	/* 라벨 생성 */
+	widget.insideLabelJsFunc = function(serieseId, index, data, values){
+		return (data[xField]/widget.total * 100).toFixed(2) + '%';
+	}
+
+	/* 토탈라벨 생성 */
+	widget.totalLabelJsFunc = function(index, data, value){
+		return window.gfn.addComma(value);
+	}
+
+	/* 아이템 클릭시 발생하는 이벤트 */
+	widget.itemClickJsFunc = function(seriesId, displayText, index, data, values){
+
+		const params = {id: widget.id}
+		params[window.gfn.toCamelCase(colNm)] = data[colNm];
+		window.gfn.setParams(params);
+		window.gfn.setSearchEvent(widget);
+
+		widget.sItem = data[colNm]; // 선택아이템 저장
+	}
+
+	/* 아이템외 차트 클릭시 발생하는 이벤트 */
+	widget.chartClickJsFunc = function(...obj){
+		window.gfn.deleteParam(window.gfn.toCamelCase(colNm));
+		window.gfn.setParams({id: widget.id});
+		window.gfn.setSearchEvent(widget);
+		widget.sItem = null;
+	}
+
+	/** 컴포넌트 생성 완료시 발생되는 이벤트 */
+	widget.displayCompleteCallFunc = function() {
+		if(widget.sIndex !== null && widget.sIndex !== undefined) 
+			widget.getComponent().setSelectedIndex(0, widget.sIndex);
+	}
+
+	/**
+	* component가 삭제되기 전 호출됩니다.
+	*/
+	widget.componentRemoveHandler = function(){
+
+	}
+</script>

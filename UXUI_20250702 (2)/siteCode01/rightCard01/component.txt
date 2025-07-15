@@ -1,0 +1,25 @@
+{
+  "propertyOptions": [],
+  "layoutMetaData": {
+    "captionTxt": "",
+    "selectedCountry": "대한민국",
+    "selectedAreaCode": 410
+  },
+  "isMultiView": false,
+  "multiViewRow": 2,
+  "multiViewColumn": 2,
+  "multiViewSubCategoryField": {},
+  "multiViewFillType": null,
+  "marginLeft": 10,
+  "marginTop": 10,
+  "marginRight": 10,
+  "marginBottom": 10,
+  "isAutoServiceStart": true,
+  "dedicated": false,
+  "isDataLimit": false,
+  "dataLimit": 10000,
+  "referenceResources": [],
+  "bindingSource": "416de4c9d8d1f27a9ce5ce63f845fb5e",
+  "referenceSources": [],
+  "classList": []
+}

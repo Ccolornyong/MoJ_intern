@@ -1,0 +1,28 @@
+<BIX5 backgroundColor="transparent" alpha="1" fontSize="11" padding="10">
+<Options>
+<Caption text="'25년 5월 체류 외국인 현황" height="70" color="#ffffff" textAlign="left" fontSize="42" fontFamily="NotoSans" fontWeight="bold" paddingLeft="0" paddingRight="0" paddingTop="0" paddingBottom="20" backgroundColor="transparent"/>
+<SubCaption text="" height="1" textAlign="center" fontSize="3" fontFamily="" fontWeight="normal" paddingLeft="0" paddingRight="0" paddingTop="0" paddingBottom="3" backgroundColor="#ffffff" width="100%"/>
+<Caption text=" " height="15" color="#ffffff" textAlign="left" fontSize="45" fontFamily="NotoSans" fontWeight="bold" paddingLeft="0" paddingRight="0" paddingTop="0" paddingBottom="5" backgroundColor="transparent"/>
+<Legend position="bottom" display="none" height="0" backgroundColor="transparent" borderStyle="none" hAlign="center"/>
+</Options>
+<UnitFormatter id="unitfmt" useThousandsSeparator="true" units="auto" unitSymbols="[,K,M,G,T]" divisor="1000" rounding="none"/>
+<DateFormatter id="dateFmt" formatString="YYYY/MM/DD"/>
+<SeriesInterpolate id="si"/>
+<SeriesSlide id="ss" direction="right"/>
+<TreeMapChart showDataTips="true" buttonMode="true" _cType="TreeMapChart" dataTipBorderStyle="inset" dataTipJsFunction="myDataTip2021" chartOverJsFunction="chartOverHandler"  itemClickJsFunction="itemClickJsFunc2025">
+<series>
+<TreeMapSeries formatter="{unitfmt}" weightField="count_202505" nameField="category" showGroupHeader="true" groupField="items" groupHeaderHeight="50" groupHeaderFontWeight="bold" groupHeaderFontSize="25" groupHeaderFontFamily="NotoSans" groupHeaderTextAlign="center" displayName="지역별 외국인 자격 분포" groupNameField="name" labelPosition="inside" color="#ffffff" showDataEffect="" layout="none" id="Treemap_15" labelJsFunction="labelJsFunc202505_15" fontFamily="NotoSans" topLevelGroupHeaderFontColor="#ffffff" fillJsFunction="fillByCategory02" strokeJsFunction="borderByCategory2021" >
+<topLevelGroupHeaderColor>
+<SolidColor color="#000000"/>
+</topLevelGroupHeaderColor>
+<groupStroke>
+<Stroke color="#000000" weight="3"/>
+</groupStroke>
+</TreeMapSeries>
+</series>
+<backgroundElements>
+<GridLines direction="none" showBorderStroke="false"/>
+</backgroundElements>
+</TreeMapChart>
+<Caption text=" " height="50" color="#ffffff" textAlign="right" fontSize="20" fontFamily="NotoSans" paddingLeft="0" paddingRight="0" paddingTop="16" paddingBottom="0" width="100%" backgroundColor="transparent"/>
+</BIX5>

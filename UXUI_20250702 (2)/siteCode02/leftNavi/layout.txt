@@ -1,0 +1,32 @@
+<div class="menu_div">
+<ul>
+<li class="side-nav__list on">
+<button class="menu fst_button">전세계 이민자 현황</button>
+<ul class="sub_menu">
+<li>
+<button class="sub_button click" id="424029be546afbb38b2afc1c6a4a8f78">국가별 인구·이민자</button>
+</li>
+</ul>
+</li>	
+<li class="side-nav__list on">
+<button class="menu fst_button">국내 이민자 현황</button>
+<ul class="sub_menu">
+<li><button class="sub_button" id="484414a781026bbe820085ad35b853cf">지역별 인구·체류외국인</button></li>
+<li><button class="sub_button" id="400d2b79891c35f591a2a25e6cad66de">지역별 체류외국인 <span style="font-size: 14px;">(상세)</span></button></li>
+</ul>
+</li>	
+<li class="side-nav__list on">
+<button class="menu fst_button">지자체 외국인 정책</button>
+<ul class="sub_menu">
+<li><button class="sub_button" id="408bb066b5e079bcb9c4bffa81bfc774">외국인정책 시행계획 <span style="font-size: 12px;">(제4차, '23-'24)</span></button></li>
+<li><button class="sub_button" id="487c3a721c415c0c8d74c55b761e2f55">외국인정책 시행계획 <span style="font-size: 12px;">(제3차, '18-'22)</span></button></li>
+</ul>
+</li>	<li class="side-nav__list on">
+<button class="menu fst_button">출입국자 및 체류외국인 통계</button>
+<ul class="sub_menu">
+<li><button class="sub_button" id="44fec7005ade889f89a291705fe0bb0f">출입국자</button></li>
+<li><button class="sub_button" id="4c9b4b0d83e436ea8b38a24d97cd0247">체류외국인</button></li>
+</ul>
+</li>	
+</ul>
+</div>

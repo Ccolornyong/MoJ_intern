@@ -1,0 +1,114 @@
+<script>
+	/**
+	* component를 사용할 준비가 되면 호출합니다
+	*/
+	widget.componentReadyHandler = function(componentId){
+		if(!widget.isBindingSource()){
+			document.getElementById(componentId).setDataType("json");
+			document.getElementById(componentId).setDataURL(BIX5.getAssetsPath() + "Datasources/Line-Line_Segment.json");
+		}
+
+		// 연도별 외국인 인구 차트 - 사용자 정의 이벤트 Listener
+		widget.getSlide().addEventListener("search", function(evt) {
+			window.gfn.searchCallback(evt, widget);
+		});
+	};
+
+	// 연도별 외국인 인구 차트 - 아이템 클릭 이벤트
+	widget.itemClickFunc = function(seriesId, displayText, index, data, values) {
+		window.gfn.setParams({
+			id: widget.id
+			, year : data.YEAR
+		})
+		window.gfn.setSearchEvent(widget);
+		widget.sItem = data.YEAR;
+
+		// yearClickEvent 이벤트 생성
+		window.gfn.customDispatchEvent(widget, 'yearClickEvent', data);
+
+		var idx = widget.payload.findIndex(_f => _f.YEAR === String(window.gfn.getParams().year));
+		widget.getComponent().setSelectedIndex(0, idx);
+		if(idx != 0){
+			var e = widget.payload[idx];
+			if(e != null && typeof e != "undefined"){
+				month = e["MONTH"];
+			}
+		}
+		window.gfn.addLayoutMetaData(widget, {month});
+	};
+
+	// 연도별 외국인 인구 차트 - 차트 클릭 이벤트
+	widget.chartClickJsFunc = function(eventName, id) {			
+		window.gfn.deleteParam('year');
+		window.gfn.setParams({id: widget.id});
+		window.gfn.setSearchEvent(widget);
+
+		widget.sItem = null;
+	};
+
+	// 연도별 외국인 인구 차트 - 차트 생성 완료 이벤트
+	widget.displayCompleteCallFunc = function(componentId){
+		var idx = widget.payload.findIndex(_f => _f.YEAR === String(window.gfn.getParams().year));
+		widget.getComponent().setSelectedIndex(0, idx);
+	};
+
+
+	/**
+	* 데이터 변형 사용자 정의 함수를 등록합니다.
+	* 콜백함수에 인자로 topic, payload가 전달됩니다.
+	* payload: 수신된 데이터. 해당 값은 참조된 값이기 때문에 유의하여 사용 바랍니다.
+	*/
+	widget.setTransformSourceHandler(function(topic, payload){
+		// 원본데이터 저장
+		widget.payload = payload;
+
+		let yearData = {};
+		if(widget.sItem !== null && widget.sItem !== undefined){
+			widget.sIndex = payload.findIndex(_f => _f.YEAR === widget.sItem);
+			yearData = payload[widget.sIndex];
+		} else {
+			widget.sIndex = null;
+			yearData = payload[payload.length -1];
+		}
+
+
+		// yearClickEvent 이벤트 생성
+		window.gfn.customDispatchEvent(widget, 'yearClickEvent', yearData);
+
+		var month = "";
+		var year = 0;
+		for(var i=0;i<payload.length;i++){
+			var e = payload[i];
+			if(year < Number(e["YEAR"])){
+				year = Number(e["YEAR"]);
+				month = e["MONTH"];
+			}
+		}
+		var idx = widget.payload.findIndex(_f => _f.YEAR === String(window.gfn.getParams().year));
+		if(idx != 0){
+			var e = payload[idx];
+			if(e != null && typeof e != "undefined"){
+				month = e["MONTH"];
+			}
+		}
+		window.gfn.addLayoutMetaData(widget, {month});
+		return payload;
+	});
+
+
+	/**
+	* component가 삭제되기 전 호출됩니다.
+	*/
+	widget.componentRemoveHandler = function(){
+
+	}
+
+
+	widget.upLabelJsFunc = function(seriesId, index, data, values){
+		if(data.FGN_CT_SUM > 5){
+			return window.gfn.addComma(data.FGN_CT_SUM);
+		} else {
+			return '-';
+		}
+	}
+</script>

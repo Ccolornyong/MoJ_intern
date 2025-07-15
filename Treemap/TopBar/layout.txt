@@ -1,0 +1,10 @@
+<div style="display: flex; gap: 4px; font-family: sans-serif; font-size: 14px; margin-top: 10px;">
+<!-- 범례 색상 + 값 -->
+<div style="width: 70px; height: 20px; background-color: #F63538; color: white; text-align: center; line-height: 20px;"><b>-10%</b></div>
+<div style="width: 70px; height: 20px; background-color: #D73C3F; color: white; text-align: center; line-height: 20px;"><b>-5%</b></div>
+<div style="width: 70px; height: 20px; background-color: #57333b; color: white; text-align: center; line-height: 20px;"><b>-1%</b></div>
+<div style="width: 70px; height: 20px; background-color: #414554; color: white; text-align: center; line-height: 20px;"><b>0%</b></div>
+<div style="width: 70px; height: 20px; background-color: #3D5451; color: white; text-align: center; line-height: 20px;"><b>+1%</b></div>
+<div style="width: 70px; height: 20px; background-color: #30974F; color: white; text-align: center; line-height: 20px;"><b>+5%</b></div>
+<div style="width: 70px; height: 20px; background-color: #30CC5A; color: white; text-align: center; line-height: 20px;"><b>+10%</b></div>
+</div>

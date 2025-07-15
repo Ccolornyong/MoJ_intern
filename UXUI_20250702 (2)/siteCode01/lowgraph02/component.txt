@@ -1,0 +1,42 @@
+{
+  "propertyOptions": [],
+  "layoutMetaData": {
+    "categoryField": "Entity_kor",
+    "scrollPosition": 6,
+    "captionTxt": "연도별 인구",
+    "xField": "cnt",
+    "gutterLeft": "100",
+    "visibleItemSize": "7",
+    "maximum": 0,
+    "peopleOutSumCnt": 271751,
+    "selectedCountry": "대한민국",
+    "areaCd": "124",
+    "selectedareaCd": 124,
+    "selectedAreaCode": 410
+  },
+  "isMultiView": false,
+  "multiViewRow": 2,
+  "multiViewColumn": 2,
+  "multiViewSubCategoryField": {
+    "label": "Entity",
+    "id": 49161,
+    "name": "Entity"
+  },
+  "multiViewFillType": null,
+  "marginLeft": 10,
+  "marginTop": 10,
+  "marginRight": 10,
+  "marginBottom": 10,
+  "isAutoServiceStart": true,
+  "dedicated": true,
+  "isDataLimit": true,
+  "dataLimit": 7,
+  "referenceResources": [],
+  "vars": "",
+  "componentLayoutId": "Column-Column",
+  "bindingSource": "4c826c4666cab2a7a175c54a335585db",
+  "referenceSources": [],
+  "interactiveFiltering": false,
+  "dynamicFiltering": false,
+  "filterField": "AREA_ENG_NM"
+}

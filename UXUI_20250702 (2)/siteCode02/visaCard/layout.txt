@@ -1,0 +1,65 @@
+<BIX5 backgroundColor="transparent" alpha="1" fontSize="12" padding="10" fontWeight="bold" fontFamily="NotoSans">
+<Options>
+<SubCaption text="" height="1" color="#999999" textAlign="center" fontSize="13" fontFamily="" fontWeight="normal" paddingLeft="0" paddingRight="0" paddingTop="0" paddingBottom="0" backgroundColor="transparent"/>
+<Legend position="bottom" display="none" backgroundColor="transparent" borderStyle="none" hAlign="center" width="0" height="0"/>
+</Options>
+<UnitFormatter id="unitfmt" useThousandsSeparator="true" units="" unitSymbols="[,K,M,G,T]" divisor="1000" rounding="none"/>
+<DateFormatter id="dateFmt" formatString="YYYY/MM/DD"/>
+<SeriesInterpolate id="si"/>
+<SeriesSlide id="ss" direction="right"/>
+<Bar2DChart showDataTips="true" barWidthRatio="0.7" barWidthMinRatio="1" _cType="Bar2DChart" gutterTop="1" gutterBottom="1"  displayCompleteCallFunction="@widget.displayCompleteCallFunc"  gutterLeft="{{meta.gutterLeft}}">
+<horizontalAxis>
+<LinearAxis id="hAxis" formatter="{unitfmt}" minimum="NaN" maximum="{{meta.maximum}}" interval="NaN"/>
+</horizontalAxis>
+<verticalAxis>
+<CategoryLinearAxis id="vAxis" categoryField="{{meta.categoryField}}" formatter="" labelJsFunction="@widget.axisLabelFunc"/>
+</verticalAxis>
+<series>
+<Bar2DSet type="stacked" showTotalLabel="true" totalLabelJsFunction="@widget.totalLabelJsFunc" color="#7e8282">
+<series>
+
+
+<Bar2DSeries itemRenderer="SemiCircleBarItemRenderer" labelPosition="inside" xField="{{meta.xField}}" displayName="외국인 수" showDataEffect="" color="#ffffff" _nodeName="Bar2DSeries" formatter="{unitfmt}" id="{{meta.xField}}" insideLabelJsFunction="@widget.insideLabelJsFunc" alwayShowLabels="false" itemSelectionColor="#2c2670">
+<fills>
+<LinearGradient angle="0">
+<entries>
+<GradientEntry ratio="1" color="#7183c4"/>
+<GradientEntry ratio="0" color="#9badef"/>
+</entries>
+</LinearGradient>
+</fills>
+
+<stroke>
+<Stroke color="#86c1e0" weight="0" alpha="0"/>
+</stroke>
+</Bar2DSeries>
+</series>
+</Bar2DSet>
+</series>
+<horizontalAxisRenderers>
+<Axis2DRenderer axis="{hAxis}" showLine="true" color="#343a40">
+<axisStroke>
+<Stroke color="#eeeeee" alpha="0"/>
+</axisStroke>
+</Axis2DRenderer>
+</horizontalAxisRenderers>
+<verticalAxisRenderers>
+
+
+<ScrollableAxisRenderer axis="{vAxis}" visibleItemSize="{{meta.visibleItemSize}}" color="#343a40" scrollBarPlacement="right" scrollPosition="{{meta.scrollPosition}}" autoLineBreak="true" textAlign="right"/>
+</verticalAxisRenderers>
+<backgroundElements>
+<GridLines direction="vertical" showBorderStroke="false">
+<horizontalStroke>
+<Stroke color="#eeeeee" alpha="1" weight="1"/>
+</horizontalStroke>
+<verticalStroke>
+<Stroke color="#eeeeee" alpha="1" weight="1"/>
+</verticalStroke>
+<borderStroke>
+<Stroke color="#eeeeee" alpha="1" weight="1"/>
+</borderStroke>
+</GridLines>
+</backgroundElements>
+</Bar2DChart>
+</BIX5>

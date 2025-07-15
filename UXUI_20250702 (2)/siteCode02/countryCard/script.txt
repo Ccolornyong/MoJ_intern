@@ -1,0 +1,139 @@
+<script>
+	const captionTxt = '연도별 인구';
+	const colNm = 'Entity_kor'; // y축
+	const xField = 'cnt';       // x축
+	const gutterLeft = '100';
+	const visibleItemSize = '7';
+	const defaultCountry = '대한민국'; // 초기 선택 국가
+	const defaultAreaCd = 410;
+
+	// ✅ 1. 위젯 초기화 시점
+	widget.componentReadyHandler = function(componentId) {
+		if (!widget.isBindingSource()) {
+			document.getElementById(componentId).setDataType("json");
+			document.getElementById(componentId).setDataURL(BIX5.getAssetsPath() + "Datasources/Bar-Bar.json");
+		}
+
+
+		// ✅ 지도 또는 다른 위젯에서 발생한 클릭 이벤트 수신
+		widget.getSlide().addEventListener("countryClick", function(evt) {
+			const detail = evt.detail || {};
+			const countryLabel = detail.countryLabel;
+			const seriesId = detail.seriesId;
+			const continentLabel = detail.continentLabel;
+			const areaCd = detail.areaCd;
+
+			console.log("✅ 하단 Card02 countryClick 이벤트 수신:", seriesId, countryLabel, continentLabel, areaCd);
+
+			// ✅ 검색 파라미터 및 이벤트 전달
+			window.gfn.setParams({ natHanNm: countryLabel, AREA_CD: areaCd });
+			window.gfn.setSearchEvent(widget);
+		});
+
+		// 검색 이벤트 수신
+		widget.getSlide().addEventListener('search', function(evt) {
+			window.gfn.searchCallback(evt, widget);
+			if (evt.detail.outNatHanNm) {
+				widget.sItem = null;
+			}
+		});
+	};
+
+	// ✅ 2. 데이터 가공 처리
+	widget.setTransformSourceHandler(function(topic, payload) {
+		const params = window.gfn.getParams();
+		const selectedCountry = params.natHanNm || defaultCountry;
+		const selectedAreaCode = params.AREA_CD || defaultAreaCd;
+
+		console.log("selectedAreaCodeselectedAreaCode: ", selectedCountry, selectedAreaCode);
+
+		// ✅ 데이터 필터링
+		payload = payload.filter(row => row.AREA_CD === selectedAreaCode);
+
+		// ✅ 메타 갱신
+		window.gfn.addLayoutMetaData(widget, {
+			captionTxt,
+			categoryField: colNm,
+			xField,
+			gutterLeft,
+			visibleItemSize,
+			selectedCountry,
+			selectedAreaCode
+		});
+
+		widget.getComponent().redraw();
+
+		// 총계 계산
+		widget.total = 0;
+		for (let i = 0; i < payload.length; i++) {
+			let row = payload[i];
+			widget.total += row[xField];
+			row[colNm] = `${i + 1}위 ${row[colNm]}`;
+			if (row[xField] <= 5) row[xField] = 0;
+		}
+
+		// 선택 아이템 처리
+		widget.originalData = payload;
+		if (widget.sItem !== undefined && widget.sItem !== null) {
+			widget.sIndex = payload.findIndex(row => {
+				let len = row[colNm].indexOf(' ');
+				return widget.sItem === row[colNm].substr(len + 1);
+			});
+			window.gfn.addLayoutMetaData(widget, { scrollPosition: widget.sIndex });
+		} else {
+			widget.sIndex = null;
+			window.gfn.addLayoutMetaData(widget, { scrollPosition: payload.length - 1 });
+		}
+
+		// 최대값 설정
+		const maximum = payload[0]?.[xField] || widget.sIndex;
+		window.gfn.addLayoutMetaData(widget, { maximum: maximum * 1.3 });
+
+		// 합계 전달용 커스텀 이벤트
+		window.gfn.customDispatchEvent(widget, "setMetaData1", {
+			peopleInSumCnt: widget.total
+		});
+
+		return payload;
+	});
+
+	// ✅ 라벨 및 UI 요소들
+	widget.insideLabelJsFunc = function(seriesId, index, data, values) {
+		return ((data[xField] / widget.total) * 100).toFixed(2) + '%';
+	};
+
+	widget.totalLabelJsFunc = function(index, data, value) {
+		return value > 5 ? window.gfn.addComma(value) : '';
+	};
+
+	widget.itemClickJsFunc = function(seriesId, displayText, index, data, values) {
+		const params = { id: widget.id };
+		let len = data[colNm].indexOf(' ');
+		params[window.gfn.toCamelCase(colNm)] = data[colNm].substr(len + 1);
+		window.gfn.setParams(params);
+		window.gfn.deleteParam('outNatHanNm');
+		window.gfn.setSearchEvent(widget);
+		widget.sItem = data[colNm].substr(len + 1);
+	};
+
+	widget.dataTipJsFunc = function(seriesId, code, label, data) {
+		return data.CNT > 5
+			? data.NAT_HAN_NM + '<br>' + window.gfn.addComma(data.CNT)
+		: data.NAT_HAN_NM + '<br> -';
+	};
+
+	widget.chartClickJsFunc = function() {
+		window.gfn.deleteParam(window.gfn.toCamelCase(colNm));
+		window.gfn.setParams({ id: widget.id });
+		window.gfn.setSearchEvent(widget);
+		widget.sItem = null;
+	};
+
+	widget.displayCompleteCallFunc = function() {
+		if (widget.sIndex !== null && widget.sIndex !== undefined) {
+			widget.getComponent().setSelectedIndex(0, widget.sIndex);
+		}
+	};
+
+	widget.componentRemoveHandler = function() {};
+</script>

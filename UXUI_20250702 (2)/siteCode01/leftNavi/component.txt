@@ -1,0 +1,91 @@
+{
+  "propertyOptions": [
+    {
+      "label": "제목",
+      "control": "TextInput",
+      "attribute": "cardSmallTitle"
+    },
+    {
+      "label": "폰트",
+      "control": "ComboBox",
+      "attribute": "FontFamily",
+      "width": 10,
+      "options": [
+        {
+          "label": "노트 산스",
+          "value": "NotoSans"
+        },
+        {
+          "label": "노트 산스B",
+          "value": "NotoSansB"
+        },
+        {
+          "label": "나눔스퀘어라운드B",
+          "value": "NanumSquareRoundB"
+        },
+        {
+          "label": "나눔고딕",
+          "value": "NanumGothic"
+        },
+        {
+          "label": "나눔고딕B",
+          "value": "NanumGothicB"
+        },
+        {
+          "label": "맑은 고딕",
+          "value": "Malgun Gothic"
+        },
+        {
+          "label": "굴림",
+          "value": "gulim"
+        },
+        {
+          "label": "Roboto",
+          "value": "Roboto"
+        }
+      ]
+    },
+    {
+      "label": "제목 크기",
+      "control": "NumericStepper",
+      "minimum": 1,
+      "maximum": 300,
+      "stepSize": 1,
+      "attribute": "TitleSize"
+    },
+    {
+      "label": "제목 색상",
+      "control": "ColorSelector",
+      "attribute": "smallTitleColor"
+    }
+  ],
+  "layoutMetaData": {
+    "cardSmallTitle": "체류",
+    "smallTitleColor": "#ffffff",
+    "smallCardOpacity": 0,
+    "smallConColor": "#dd5e17",
+    "iconClass": "fa fa-th-large",
+    "iconSize": 19,
+    "TitleSize": 10,
+    "smalliconColor": "#ffffff",
+    "FontFamily": "NotoSansB",
+    "year": "2023년 "
+  },
+  "isMultiView": false,
+  "multiViewRow": 2,
+  "multiViewColumn": 2,
+  "multiViewSubCategoryField": {},
+  "multiViewFillType": null,
+  "marginLeft": 0,
+  "marginTop": 0,
+  "marginRight": 0,
+  "marginBottom": 0,
+  "isAutoServiceStart": true,
+  "dedicated": false,
+  "isDataLimit": true,
+  "dataLimit": 255,
+  "referenceResources": [],
+  "bindingSource": "",
+  "referenceSources": [],
+  "classList": []
+}

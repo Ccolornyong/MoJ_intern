@@ -1,0 +1,28 @@
+{
+  "propertyOptions": [],
+  "layoutMetaData": {
+    "minimum": 870,
+    "maximum": 653266,
+    "interval": 130479
+  },
+  "isMultiView": false,
+  "multiViewRow": 2,
+  "multiViewColumn": 2,
+  "multiViewSubCategoryField": {},
+  "multiViewFillType": null,
+  "marginLeft": 0,
+  "marginTop": 0,
+  "marginRight": 0,
+  "marginBottom": 0,
+  "isAutoServiceStart": true,
+  "dedicated": false,
+  "isDataLimit": true,
+  "dataLimit": 255,
+  "referenceResources": [],
+  "vars": "",
+  "mapType": "WorldDrillDown",
+  "bindingSource": "4e5e5cf5e84adb34bddc55f0b0f64bb5",
+  "referenceSources": [],
+  "interactiveFiltering": true,
+  "dynamicFiltering": true
+}

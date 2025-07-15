@@ -1,0 +1,38 @@
+{
+  "propertyOptions": [],
+  "layoutMetaData": {
+    "peopleAvgCnt": 0,
+    "peopleInSumCnt": "1,424,564,772"
+  },
+  "isMultiView": false,
+  "multiViewRow": 2,
+  "multiViewColumn": 2,
+  "multiViewSubCategoryField": {},
+  "multiViewFillType": null,
+  "marginLeft": 0,
+  "marginTop": 0,
+  "marginRight": 0,
+  "marginBottom": 0,
+  "isAutoServiceStart": true,
+  "dedicated": false,
+  "isDataLimit": false,
+  "dataLimit": 10000,
+  "referenceResources": [],
+  "style": {
+    "fontFamily": "NotoSans",
+    "fontSize": "20px",
+    "textAlign": "center",
+    "fontWeight": "bold",
+    "color": "#ffffff",
+    "verticalAlign": "middle",
+    "letterSpacing": "0",
+    "lineHeight": "1.5",
+    "fontStyle": "normal",
+    "textDecoration": "none",
+    "backgroundImage": "none",
+    "-webkit-background-clip": "none"
+  },
+  "classList": [],
+  "isContentEditable": false,
+  "placeholderText": ""
+}

@@ -1,0 +1,27 @@
+{
+  "propertyOptions": [],
+  "layoutMetaData": {
+    "maleMaximum": 6529470,
+    "femaleMaximum": 6455703
+  },
+  "isMultiView": false,
+  "multiViewRow": 2,
+  "multiViewColumn": 2,
+  "multiViewSubCategoryField": {},
+  "multiViewFillType": null,
+  "marginLeft": 10,
+  "marginTop": 0,
+  "marginRight": 9,
+  "marginBottom": 0,
+  "isAutoServiceStart": true,
+  "dedicated": false,
+  "isDataLimit": true,
+  "dataLimit": 10000,
+  "referenceResources": [],
+  "vars": "",
+  "componentLayoutId": "",
+  "bindingSource": "434252d297b256bb94481a8d5738e74a",
+  "referenceSources": [],
+  "interactiveFiltering": false,
+  "dynamicFiltering": false
+}
